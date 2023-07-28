@@ -1,9 +1,9 @@
 name: Update Release Description with Changelog
 
 on:
-  release:
-    types:
-      - created
+  create:
+    tags:
+      '*'
 jobs:
   release:
     name: Release pushed tag
