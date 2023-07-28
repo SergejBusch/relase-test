@@ -1,10 +1,9 @@
+name: Update Release Description with Changelog
+
 on:
-  workflow_dispatch:
-    inputs:
-      release_version:
-        description: ‘Version to be released. Git tag with this name will be created.’
-        required: true
-        default: ‘0.0.0’
+  release:
+    types:
+      - created
 jobs:
   release:
     name: Release pushed tag
