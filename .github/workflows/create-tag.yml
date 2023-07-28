@@ -1,0 +1,19 @@
+name: Create release
+on:
+  workflow_dispatch:
+    inputs:
+      tag_version:
+        description: ‘Version to be released. Git tag with this name will be created.’
+        required: true
+        default: ‘0.0.0’
+jobs:
+  release:
+    name: Release pushed tag
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:         
+          git tag -a ${{ github.event.inputs.tag_version }}
+          git push --follow-tags origin ${{ github.event.inputs.tag_version }}
