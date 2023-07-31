@@ -36,4 +36,4 @@ jobs:
         last_tag=${tags[0]}
         echo "Penultimate tag: $penultimate_tag"
         echo "Last tag: $last_tag"
-        git log --pretty=format:"%H %s" $penultimate_tag..$last_tag | while read line; do echo "::debug::${line}"; done
+        git log --pretty=format:"%H %s" e114bc3eda41b301c8575c44d48a9e804e4bf8d8..$HEAD | while read line; do echo "::debug::${line}"; done
