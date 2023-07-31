@@ -17,17 +17,23 @@ jobs:
         git config --global user.name "Your Name"
         git config --global user.email "youremail@example.com"
 
-    - name: Get the last tag
-      id: last_tag
+    - name: Get the last two tags
+      id: last_two_tags
       run: |
-        last_tag=$(git describe --abbrev=0 --tags)
-        echo "Last tag: $last_tag"
-        echo "::set-output name=tag::$last_tag"
+        git fetch --tags
+        tags=$(git tag --sort=-creatordate)
+        last_two_tags=($(echo "$tags" | head -n 2))
+        echo "Last two tags: ${last_two_tags[@]}"
+        echo "::set-output name=tags::${last_two_tags[@]}"
 
-    - name: Get commits since the last tag
+    - name: Get commits between the last two tags
+      id: commit_messages
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-        last_tag="${{ steps.last_tag.outputs.tag }}"
+        tags=(${{ steps.last_two_tags.outputs.tags }})
+        penultimate_tag=${tags[1]}
+        last_tag=${tags[0]}
+        echo "Penultimate tag: $penultimate_tag"
         echo "Last tag: $last_tag"
-        git log --pretty=format:"%H %s" $last_tag..HEAD | while read line; do echo "::debug::${line}"; done
+        git log --pretty=format:"%H %s" $penultimate_tag..$last_tag | while read line; do echo "::debug::${line}"; done
