@@ -36,6 +36,6 @@ jobs:
         last_tag=${tags[0]}
         echo "Penultimate tag: $penultimate_tag"
         echo "Last tag: $last_tag"
-        git log --pretty=format:"%H %s" 03f2032ee930f8d016d16ca0967542c596df61ec..HEAD > commit_messages.txt
+        git log --pretty=format:"%H %s" 03f2032ee930f8d016d16ca0967542c596df61ec..HEAD >> commit_messages.txt
         echo "Last commit messages:"
         cat commit_messages.txt
