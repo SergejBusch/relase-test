@@ -30,6 +30,4 @@ jobs:
       run: |
         last_tag="${{ steps.last_tag.outputs.tag }}"
         echo "Last tag: $last_tag"
-        git log --pretty=format:"%H" $last_tag..HEAD > commits.txt
-        echo "Commits after $last_tag:"
-        cat commits.txt
+        git log --pretty=format:"%H %s" $last_tag..HEAD | while read line; do echo "::debug::${line}"; done
